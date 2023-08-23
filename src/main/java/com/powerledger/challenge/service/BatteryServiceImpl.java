@@ -35,4 +35,6 @@ public class BatteryServiceImpl implements BatteryService{
             repository.saveAll(batteries);
         }
     }
+
+
 }
