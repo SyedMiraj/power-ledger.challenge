@@ -52,8 +52,12 @@ public class WebSecurityConfig {
                 "/authenticate",
                 "/h2-console",
                 "/h2-console/**",
+                "/swagger-resources/configuration/ui",
                 "/swagger-ui.html",
-                "/swagger-ui/**"};
+                "/swagger-ui/**",
+                "/v2/api-docs",
+                "/webjars/**",
+                "/swagger-resources/**"};
 
         http.csrf().disable()
                 .headers().frameOptions().sameOrigin()

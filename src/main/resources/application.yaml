@@ -19,3 +19,8 @@ spring:
 app:
   jwt:
     secret: plc
+
+server:
+  servlet:
+    session:
+      tracking-modes: cookie

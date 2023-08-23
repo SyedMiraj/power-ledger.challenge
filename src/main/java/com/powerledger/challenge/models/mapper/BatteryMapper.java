@@ -22,4 +22,13 @@ public class BatteryMapper {
                 .setPostcode(domain.getPostcode())
                 .setCapacity(domain.getCapacity());
     }
+
+    public BatteryDomain modelToDomain(Battery model){
+        BatteryDomain domain = new BatteryDomain();
+        domain.setId(model.getId());
+        domain.setName(model.getName());
+        domain.setPostcode(model.getPostcode());
+        domain.setCapacity(model.getCapacity());
+        return domain;
+    }
 }
