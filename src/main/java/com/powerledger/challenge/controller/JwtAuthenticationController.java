@@ -1,5 +1,6 @@
 package com.powerledger.challenge.controller;
 
+import com.powerledger.challenge.domains.UserDomain;
 import com.powerledger.challenge.jwt.JwtRequest;
 import com.powerledger.challenge.jwt.JwtResponse;
 import com.powerledger.challenge.jwt.JwtTokenUtil;
@@ -26,6 +27,10 @@ public class JwtAuthenticationController {
         this.userDetailsService = userDetailsService;
     }
 
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> saveUser(@RequestBody UserDomain user) throws Exception {
+        return ResponseEntity.ok(userDetailsService.save(user));
+    }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {

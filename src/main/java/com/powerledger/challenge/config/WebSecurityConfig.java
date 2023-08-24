@@ -2,7 +2,6 @@ package com.powerledger.challenge.config;
 
 import com.powerledger.challenge.jwt.JwtAuthenticationEntryPoint;
 import com.powerledger.challenge.jwt.JwtRequestFilter;
-import com.powerledger.challenge.jwt.JwtUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,7 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,14 +20,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig {
 
-    private final JwtUserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
     private final JwtAuthenticationEntryPoint entryPoint;
     private final JwtRequestFilter requestFilter;
+    private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(JwtUserDetailsService userDetailsService, JwtAuthenticationEntryPoint entryPoint, JwtRequestFilter requestFilter) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, JwtAuthenticationEntryPoint entryPoint, JwtRequestFilter requestFilter, PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
         this.entryPoint = entryPoint;
         this.requestFilter = requestFilter;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
@@ -36,20 +37,16 @@ public class WebSecurityConfig {
             throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(this.userDetailsService)
-                .passwordEncoder(passwordEncoder())
+                .passwordEncoder(passwordEncoder)
                 .and()
                 .build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String[] permitAllAnyMethod = {
                 "/authenticate",
+                "/register",
                 "/h2-console",
                 "/h2-console/**",
                 "/swagger-resources/configuration/ui",
