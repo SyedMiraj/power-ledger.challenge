@@ -1,0 +1,40 @@
+stages:
+  - test
+  - build
+  - deliver
+
+variables:
+    MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository
+    - target
+
+test:
+  image: maven:3.6.3-jdk-8
+  stage: test
+  script: 
+    - eval $(./export-env.sh)
+    - mvn -Dspring.profiles.active=test test
+
+build:
+  stage: build
+  only: 
+    - master
+    - develop
+  image: maven:3.6.3-jdk-8
+  script:
+    - mvn -DskipTests clean package
+
+deliver-master:
+  image: docker:latest
+  stage: deliver
+  only: 
+    - master
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY 
+    - chmod +x branching.sh
+    - ./branching.sh
