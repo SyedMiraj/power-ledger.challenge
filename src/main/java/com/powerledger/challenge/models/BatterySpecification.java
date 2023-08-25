@@ -3,8 +3,6 @@ package com.powerledger.challenge.models;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BatterySpecification {
 
@@ -15,7 +13,7 @@ public class BatterySpecification {
                 predicate = cb.and(predicate, cb.equal(root.get("name"), name));
             }
             if(postcode != null){
-                predicate = cb.and(predicate, cb.equal(root.get("postcode"), name));
+                predicate = cb.and(predicate, cb.equal(root.get("postcode"), postcode));
             }
             if(minPostcode != null || maxCode != null){
                 if(minPostcode == null){

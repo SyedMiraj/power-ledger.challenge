@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /pl-code
+    context-path: /power-ledger
 
 spring:
   application:
@@ -19,11 +19,22 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFA_SERVER:172.16.134.40:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      bootstrap-servers: ${KAFA_SERVER:172.16.134.40:9092}
+      group-id: battery
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
   cache:
     type: redis
   redis:
-    host: ${REDIS_HOST:127.0.0.1}
+    host: ${REDIS_HOST:172.16.134.40}
     port: ${REDIS_PORT:6379}
 
 app:

@@ -3,6 +3,7 @@ package com.powerledger.challenge.controller;
 import com.powerledger.challenge.domains.BatteryDomain;
 import com.powerledger.challenge.domains.BatteryResponseByPostcode;
 import com.powerledger.challenge.domains.BatterySaveRequest;
+import com.powerledger.challenge.domains.CapacityUpdateType;
 import com.powerledger.challenge.service.BatteryService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -41,5 +42,20 @@ public class BatteryController {
     public ResponseEntity<BatteryResponseByPostcode> getBatteriesByPostcode(@RequestParam(name = "min") int minPostcode, @RequestParam("max") int maxPostcode){
         BatteryResponseByPostcode response = service.getBatteriesByPostcode(minPostcode, maxPostcode);
         return response.getTotalBatteries() > 0 ? ResponseEntity.status(HttpStatus.OK).body(response) : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/{id}/capacity")
+    @ApiOperation("Update capacity for individual battery")
+    public ResponseEntity<Void> updateCapacity(@PathVariable(name = "id") Long id,
+                                               @RequestParam("updateType") CapacityUpdateType updateType,
+                                               @RequestParam(name = "amount") int amount){
+        if(!service.isExist(id)){
+            return ResponseEntity.notFound().build();
+        }
+        if(amount <= 0){
+            return ResponseEntity.badRequest().build();
+        }
+        service.updateCapacity(id, updateType, amount);
+        return ResponseEntity.accepted().build();
     }
 }
