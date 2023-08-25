@@ -1,5 +1,6 @@
 package com.powerledger.challenge.controller;
 
+import com.powerledger.challenge.domains.BatteryDomain;
 import com.powerledger.challenge.domains.BatteryResponseByPostcode;
 import com.powerledger.challenge.domains.BatterySaveRequest;
 import com.powerledger.challenge.service.BatteryService;
@@ -7,6 +8,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/batteries")
@@ -23,6 +26,14 @@ public class BatteryController {
     public ResponseEntity<Void> createBooking(@RequestBody BatterySaveRequest model) {
         service.saveRequest(model);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping
+    @ApiOperation("Get the batteries.")
+    public ResponseEntity<List<BatteryDomain>> findBatteries(@RequestParam(name = "name", required = false) String name,
+                                                             @RequestParam(name = "postcode", required = false) Integer postcode){
+       List<BatteryDomain> response = service.findBatteries(name, postcode);
+        return response.size() > 0 ? ResponseEntity.status(HttpStatus.OK).body(response) : ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/postcodes")

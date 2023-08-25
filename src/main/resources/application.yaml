@@ -1,10 +1,14 @@
+server:
+  servlet:
+    context-path: /pl-code
+
 spring:
   application:
     name: pl-code-challenge
   datasource:
-    url: jdbc:h2:mem:pldb
-    username: root
-    password: root123
+    url: ${DB_URL:jdbc:h2:mem:pldb}
+    username: ${DB_USER:root}
+    password: ${DB_PASS:root123}
     driverClassName: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -16,11 +20,12 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  cache:
+    type: redis
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+
 app:
   jwt:
-    secret: plc
-
-server:
-  servlet:
-    session:
-      tracking-modes: cookie
+    secret: ${JWT_SECRET:plc}

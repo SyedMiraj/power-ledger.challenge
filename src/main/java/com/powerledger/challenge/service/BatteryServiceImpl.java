@@ -42,7 +42,8 @@ public class BatteryServiceImpl implements BatteryService{
 
     @Override
     public BatteryResponseByPostcode getBatteriesByPostcode(int minPostcode, int maxPostcode) {
-        List<Battery> batteries = repository.findAll(BatterySpecification.findBatteriesWithSpecification(minPostcode, maxPostcode));
+        logger.info("Filtering batteries with postcode. Min postcode={}, and Max postcode={}", minPostcode, maxPostcode);
+        List<Battery> batteries = repository.findAll(BatterySpecification.findBatteriesWithSpecification(null, null, minPostcode, maxPostcode));
         List<BatteryDomain> list = batteries.stream()
                 .map(model -> mapper.modelToDomain(model))
                 .sorted()
@@ -50,6 +51,15 @@ public class BatteryServiceImpl implements BatteryService{
         BatteryResponseByPostcode response = new BatteryResponseByPostcode();
         response.setBatteries(list);
         return summary(response);
+    }
+
+    @Override
+    public List<BatteryDomain> findBatteries(String name, Integer postcode) {
+        List<Battery> batteries = repository.findAll(BatterySpecification.findBatteriesWithSpecification(name, postcode, null, null));
+        return batteries.stream()
+                .map(model -> mapper.modelToDomain(model))
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     private BatteryResponseByPostcode summary(BatteryResponseByPostcode response) {
