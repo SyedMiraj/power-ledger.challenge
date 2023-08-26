@@ -51,6 +51,11 @@ void listeningCapacityUpdate(String message){
     ...
     }
 ```
+### 5: CI/CD pipeline using GitLab
+This version control of this project is maintained gitlab and a CI/CD pipeline is used to test, build and deploy a image to gitlab registry. From this registry user can pull the image and run the containers. A docker-compose file is developed to run as standalone and added in this project folder.
 
-### 5: Swagger for api documentation
+### 6: Swagger for api documentation
 Swagger2 is used to generate the REST API documents for RESTful web services. 
+
+### 7: Unit testing
+Multiple test case are added in this project.
