@@ -5,11 +5,17 @@ The following command needs to run
 docker-compose -f plc-code-challenge-compose.yml up
 ```
 
-Now from the browser, check the [Swagger-UI](http://localhost:8080/powerledger/swagger-ui.html) for api docs. Also browse the [H2-db-console](http://localhost:8080/powerledger/h2-console). User can register from the **/register** api and use his credential to generate JWT token from **/authenticate** api in AuthenticationController. For testing purpose an user will be automatically created with following credential.
+Now from the browser, check the [Swagger-UI](http://localhost:8080/power-ledger/swagger-ui.html) for api docs. Also browse the [H2-db-console](http://localhost:8080/power-ledger/h2-console). User can register from the **/register** api and use his credential to generate JWT token from **/authenticate** api in AuthenticationController. For testing purpose an user will be automatically created with following credential.
 
 **username:** *test*
 
 **password:** *123* 
+
+Database credential:
+
+**username:** *root*
+
+**password:** *root123*
 
 ## Application overview
 This application is built using Spring Boot 2.7 and Maven is used as build tool. Following dependencies are added in this module
