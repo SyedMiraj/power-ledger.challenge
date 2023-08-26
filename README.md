@@ -10,12 +10,17 @@ Now from the browser, check the [Swagger-UI](http://localhost:8080/power-ledger/
 **username:** *test*
 
 **password:** *123* 
-
+ 
 Database credential:
 
 **username:** *root*
 
 **password:** *root123*
+
+JWT Token sample: 
+
+**Bearer**  eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjkzMDg3NDc0LCJpYXQiOjE2OTMwNjk0NzR9.cQ3a55lKfd4UjzmIiZ9JSzvJ5Y-leVCbx4zs6lHjlf8Ft8wZ9oBDONWZ0_y0jxl-rXqICSAJM7r6iWvLbYhguw
+
 
 ## Application overview
 This application is built using Spring Boot 2.7 and Maven is used as build tool. Following dependencies are added in this module
